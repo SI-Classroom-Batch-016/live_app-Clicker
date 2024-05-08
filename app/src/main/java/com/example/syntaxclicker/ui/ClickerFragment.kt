@@ -29,23 +29,17 @@ class ClickerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        updateUI()
+        //region UI Event Listener
 
         binding.clickBTN.setOnClickListener {
 
-
             //UI Event wird weitergegeben
             viewModel.click()
-
-            //UI wird geupdated
-            updateUI()
         }
 
         binding.clickBTN.setOnLongClickListener {
 
             viewModel.clickLong()
-
-            updateUI()
 
             //true wenn der Click verarbeitet wurde,
             //false wenn der Click weiterhin gültig
@@ -56,18 +50,29 @@ class ClickerFragment : Fragment() {
 
             viewModel.switchEasyMode()
 
-            updateUI()
         }
-    }
 
-    //Diese Funktion soll das UI mit den Daten aus dem ViewModel updaten
-    fun updateUI(){
-        binding.scoreTV.text = viewModel.score.toString()
-        if(viewModel.easyMode){
-            binding.easyModeTV.text = "Easy Mode"
-        } else {
-            binding.easyModeTV.text = "Hard Mode"
+        //endregion
+
+        //region Observer die das UI mit Daten verbinden
+
+        viewModel.score.observe(viewLifecycleOwner){ score ->
+
+            binding.scoreTV.text = score.toString()
+
         }
-    }
 
+        viewModel.easyMode.observe(viewLifecycleOwner){easyMode ->
+
+            if(easyMode){
+                binding.easyModeTV.text = "Easy Mode"
+            } else {
+                binding.easyModeTV.text = "Hard Mode"
+            }
+
+        }
+
+        //endregion
+
+    }
 }

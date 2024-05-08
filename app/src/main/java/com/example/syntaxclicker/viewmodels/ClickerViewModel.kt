@@ -1,38 +1,44 @@
 package com.example.syntaxclicker.viewmodels
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class ClickerViewModel : ViewModel() {
 
-    //So könnten die Fragmente die Variable direkt verändern
-    //Bei einer sauberen Software Architektur vermeiden wir das
-    //    var score = 0
-
-    private var _score = 0
-    val score: Int
+    private val _score = MutableLiveData<Int>(0)
+    val score: LiveData<Int>
         get() = _score
 
-    private var _easyMode: Boolean = false
-    val easyMode: Boolean
+    private val _easyMode = MutableLiveData<Boolean>(false)
+    val easyMode: LiveData<Boolean>
         get() = _easyMode
 
-    fun switchEasyMode(){
-        _easyMode = !easyMode
+
+    fun switchEasyMode() {
+
+        _easyMode.value = !easyMode.value!!
+
+//        val inhaltLiveData: Boolean = easyMode.value!!
+//        if(inhaltLiveData == true){
+//            _easyMode.value = false
+//        } else if(inhaltLiveData == false){
+//            _easyMode.value = true
+//        }
     }
 
-
     fun click() {
-        if (easyMode) {
-            _score += 5
+        if (easyMode.value!!) {
+            _score.value = score.value!! + 5
         } else {
-            _score++
+            _score.value = score.value!! + 1
         }
-        Log.d("ViewModel", "Neue Punktzahl: $score")
+        Log.d("ViewModel", "Neue Punktzahl: ${score.value}")
     }
 
     fun clickLong() {
-        _score += 10
-        Log.d("ViewModel", "Neue Punktzahl: $score")
+        _score.value = score.value!! + 10
+        Log.d("ViewModel", "Neue Punktzahl: ${score.value}")
     }
 }
