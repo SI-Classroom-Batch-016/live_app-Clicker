@@ -10,4 +10,9 @@
         android:name="com.example.syntaxclicker.ui.ClickerFragment"
         android:label="fragment_clicker"
         tools:layout="@layout/fragment_clicker" />
+    <fragment
+        android:id="@+id/resultFragment"
+        android:name="com.example.syntaxclicker.ui.ResultFragment"
+        android:label="fragment_result"
+        tools:layout="@layout/fragment_result" />
 </navigation>

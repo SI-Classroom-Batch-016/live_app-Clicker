@@ -15,6 +15,12 @@ class ClickerViewModel : ViewModel() {
     val easyMode: LiveData<Boolean>
         get() = _easyMode
 
+    fun restart() {
+
+        _score.value = 0
+        _easyMode.value = false
+
+    }
 
     fun switchEasyMode() {
 
